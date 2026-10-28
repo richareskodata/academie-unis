@@ -1,0 +1,407 @@
+{
+  "version": "1.0",
+  "modules": [
+    {
+      "id": "TC1",
+      "track": "tc",
+      "title": "Vision et missions de l'UNIS",
+      "duration": "2 heures",
+      "intro": "Pourquoi l'UNIS existe, ce qu'elle fait, et comment chacun y contribue.",
+      "seqs": [
+        {
+          "title": "Pourquoi une UNIS ?",
+          "body": [
+            "Chaque jour, les formations sanitaires, les districts et les programmes de santé du Togo produisent des données : consultations, accouchements, vaccinations, cas de maladies sous surveillance.",
+            "Dispersées entre plusieurs outils et plusieurs services, ces données servent rarement autant qu'elles le pourraient. L'UNIS a pour mission de les rassembler, de les rendre fiables et de les mettre au service des décisions, du district jusqu'au niveau central."
+          ],
+          "question": "Quelle est la mission centrale de l'UNIS ?",
+          "options": [
+            "Produire de nouvelles données à la place des formations sanitaires",
+            "Rassembler les données, les fiabiliser et les mettre au service des décisions",
+            "Remplacer les programmes de santé existants",
+            "Gérer le personnel des districts"
+          ],
+          "explain": "L'UNIS ne remplace ni les producteurs de données ni les programmes : elle relie leurs données et les rend utiles."
+        },
+        {
+          "title": "Infrastructure, analyse, action",
+          "body": [
+            "La valeur de l'UNIS repose sur trois fonctions complémentaires. L'infrastructure héberge, sécurise et interconnecte les systèmes. L'analyse transforme les données en indicateurs fiables. L'action déclenche des décisions : alertes, arbitrages, allocation des ressources.",
+            "Sans infrastructure, les tableaux de bord reposent sur du sable. Sans analyse, on stocke sans comprendre. Sans action, on comprend sans agir. C'est la boucle complète qui crée de la valeur."
+          ],
+          "question": "Une unité qui stocke les données sans les analyser ni agir devient…",
+          "options": [
+            "Un centre de décision",
+            "Un observatoire complet",
+            "Un simple entrepôt de données",
+            "Un centre de formation"
+          ],
+          "explain": "Sans analyse ni action, l'infrastructure seule ne fait que conserver des données."
+        },
+        {
+          "title": "De la donnée à la décision",
+          "body": [
+            "Une donnée suit un chemin : collecte à la source, saisie, validation, analyse, diffusion, puis décision.",
+            "Une étape est souvent oubliée : la rétroaction. Quand les agents de collecte voient ce que leurs données ont permis de décider, ils les remplissent avec plus de soin. Sans retour, la qualité s'érode."
+          ],
+          "question": "Quelle étape boucle la chaîne et améliore la qualité à la source ?",
+          "options": [
+            "La saisie",
+            "L'archivage",
+            "L'impression des rapports",
+            "La rétroaction vers ceux qui produisent les données"
+          ],
+          "explain": "Le retour d'information donne du sens à la collecte et motive ceux qui la font."
+        },
+        {
+          "title": "Les niveaux du système",
+          "body": [
+            "La formation sanitaire collecte et utilise ses propres données pour organiser les soins. Le district vérifie la complétude et la cohérence, et accompagne les formations sanitaires. La région consolide et compare les districts. Le niveau central fixe les normes, analyse les tendances nationales et oriente les ressources.",
+            "Une erreur corrigée au district coûte peu. La même erreur découverte au niveau central, des mois plus tard, coûte beaucoup."
+          ],
+          "question": "Où faut-il vérifier la qualité des données en priorité ?",
+          "options": [
+            "Au plus près de la source, dès la formation sanitaire et le district",
+            "Uniquement au niveau central",
+            "Lors de l'évaluation annuelle",
+            "Chez les partenaires techniques"
+          ],
+          "explain": "Plus la vérification est proche de la source, plus la correction est rapide et peu coûteuse."
+        },
+        {
+          "title": "Votre rôle dans l'UNIS",
+          "body": [
+            "Cette académie forme les personnes qui feront vivre l'UNIS : gestionnaires de données, analystes, responsables de programmes.",
+            "À l'issue du parcours, on attend de vous que vous sachiez juger la fiabilité d'une donnée, la transformer en indicateur, et proposer une action concrète à partir de ce qu'elle montre."
+          ],
+          "question": "Qu'attend-on d'abord d'un agent formé ?",
+          "options": [
+            "Saisir plus vite",
+            "Utiliser les données pour proposer des actions concrètes",
+            "Produire plus de rapports",
+            "Maîtriser tous les logiciels du ministère"
+          ],
+          "explain": "La finalité de la formation est l'usage des données pour décider."
+        }
+      ],
+      "quiz": [
+        {
+          "text": "Les trois fonctions complémentaires de l'UNIS sont…",
+          "options": [
+            "Collecte, saisie, archivage",
+            "Infrastructure, analyse, action",
+            "Formation, supervision, évaluation",
+            "Achat, stockage, distribution"
+          ]
+        },
+        {
+          "text": "Pourquoi la rétroaction est-elle importante ?",
+          "options": [
+            "Elle remplace la validation",
+            "Elle réduit le nombre d'indicateurs",
+            "Elle motive les producteurs de données et améliore la qualité",
+            "Elle est exigée par les logiciels"
+          ]
+        },
+        {
+          "text": "Quel niveau fixe les normes et oriente les ressources nationales ?",
+          "options": [
+            "La formation sanitaire",
+            "Le district",
+            "La région",
+            "Le niveau central"
+          ]
+        },
+        {
+          "text": "Une unité qui produit des tableaux de bord sans infrastructure solide est…",
+          "options": [
+            "Fragile",
+            "Complète",
+            "Autonome",
+            "Obligatoire"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "TC2",
+      "track": "tc",
+      "title": "Gouvernance et acteurs",
+      "duration": "2 heures",
+      "intro": "Qui décide quoi sur les données de santé, et selon quelles règles.",
+      "seqs": [
+        {
+          "title": "Pourquoi gouverner les données",
+          "body": [
+            "Sans règles partagées, chaque service définit ses indicateurs, publie ses propres chiffres et garde ses données pour lui. Résultat : plusieurs chiffres pour une même réalité, et des décideurs qui ne savent plus lequel croire.",
+            "La gouvernance fixe qui collecte, qui valide, qui accède et qui publie. Elle ne ralentit pas le travail : elle évite qu'on le refasse."
+          ],
+          "question": "Quel problème la gouvernance des données cherche-t-elle d'abord à éviter ?",
+          "options": [
+            "Le manque d'ordinateurs",
+            "Les coupures d'électricité",
+            "Plusieurs chiffres contradictoires pour une même réalité",
+            "Les retards de saisie"
+          ],
+          "explain": "Des règles communes garantissent un chiffre de référence partagé par tous."
+        },
+        {
+          "title": "Les instances",
+          "body": [
+            "Un comité de pilotage fixe les orientations et arbitre les priorités. Un comité technique valide les méthodes, les indicateurs et les outils. Des points focaux, dans les programmes et les régions, font le lien avec le terrain.",
+            "La composition exacte de ces instances est fixée par les textes de l'UNIS ; ce module en présente la logique."
+          ],
+          "question": "Quelle instance valide les méthodes et les indicateurs ?",
+          "options": [
+            "Le comité de pilotage",
+            "Les points focaux",
+            "Les partenaires",
+            "Le comité technique"
+          ],
+          "explain": "Le comité technique porte les choix de méthode ; le pilotage arbitre les priorités."
+        },
+        {
+          "title": "Un référentiel d'indicateurs unique",
+          "body": [
+            "Chaque indicateur a une fiche : définition, numérateur, dénominateur, source, fréquence, niveau de désagrégation et responsable.",
+            "Quand deux services calculent la couverture vaccinale avec des dénominateurs différents, ils ne mesurent plus la même chose. Le référentiel rend les chiffres comparables."
+          ],
+          "question": "Que doit contenir la fiche d'un indicateur ?",
+          "options": [
+            "Sa définition, son mode de calcul, sa source et sa fréquence",
+            "Seulement son nom",
+            "Le nom de la personne qui l'a créé",
+            "Le graphique final"
+          ],
+          "explain": "Sans mode de calcul explicite, un indicateur ne peut pas être reproduit ni comparé."
+        },
+        {
+          "title": "Valider avant de publier",
+          "body": [
+            "Une donnée suit un circuit : vérification au district, consolidation à la région, validation au niveau central, puis publication.",
+            "Publier un chiffre non validé, même dans l'urgence, peut entraîner une mauvaise décision et entamer la confiance dans tout le système."
+          ],
+          "question": "Pourquoi éviter de publier un chiffre non validé ?",
+          "options": [
+            "Parce que c'est plus long",
+            "Parce qu'il peut entraîner une mauvaise décision et nuire à la confiance",
+            "Parce que les partenaires l'interdisent",
+            "Parce qu'il est toujours faux"
+          ],
+          "explain": "La confiance dans les chiffres officiels se perd vite et se regagne lentement."
+        },
+        {
+          "title": "Travailler avec les partenaires",
+          "body": [
+            "De nombreux partenaires financent la collecte et l'analyse de données. Leur appui est précieux s'il renforce le système national plutôt que de créer des circuits parallèles.",
+            "La règle : un seul système national, des outils interopérables, et des données qui restent sous la responsabilité du ministère."
+          ],
+          "question": "Quel principe guide l'appui des partenaires ?",
+          "options": [
+            "Chaque partenaire garde son propre système",
+            "Les partenaires publient les chiffres officiels",
+            "Renforcer le système national et éviter les circuits parallèles",
+            "Les données appartiennent au financeur"
+          ],
+          "explain": "Un système unique évite la fragmentation et la double charge pour les agents."
+        }
+      ],
+      "quiz": [
+        {
+          "text": "La gouvernance des données définit…",
+          "options": [
+            "Les horaires des agents",
+            "Le budget des formations sanitaires",
+            "Qui collecte, valide, accède et publie",
+            "Le choix des ordinateurs"
+          ]
+        },
+        {
+          "text": "Le comité de pilotage…",
+          "options": [
+            "Fixe les orientations et arbitre les priorités",
+            "Saisit les données",
+            "Corrige les erreurs de saisie",
+            "Forme les agents"
+          ]
+        },
+        {
+          "text": "Deux dénominateurs différents pour un même indicateur rendent les chiffres…",
+          "options": [
+            "Plus précis",
+            "Officiels",
+            "Plus rapides à produire",
+            "Non comparables"
+          ]
+        },
+        {
+          "text": "Les données appuyées par un partenaire restent sous la responsabilité…",
+          "options": [
+            "Du partenaire",
+            "Du ministère",
+            "Du district seul",
+            "De l'agent de saisie"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "TC3",
+      "track": "tc",
+      "title": "L'écosystème des données sanitaires",
+      "duration": "2 heures",
+      "intro": "Les sources, les outils et les flux qui alimentent l'UNIS.",
+      "seqs": [],
+      "quiz": []
+    },
+    {
+      "id": "TC4",
+      "track": "tc",
+      "title": "Protection et confidentialité des données de santé",
+      "duration": "2 heures",
+      "intro": "Protéger les patients tout en rendant les données utiles.",
+      "seqs": [],
+      "quiz": []
+    },
+    {
+      "id": "AN1",
+      "track": "an",
+      "title": "Qualité des données",
+      "duration": "3 heures",
+      "intro": "Juger la fiabilité d'une donnée avant de l'utiliser.",
+      "seqs": [
+        {
+          "title": "Complétude et promptitude",
+          "body": [
+            "La complétude mesure la part des rapports attendus effectivement reçus. La promptitude mesure la part reçue dans les délais.",
+            "Un district à 60 % de complétude ne dit pas que la situation va bien : il dit qu'on ne voit que 60 % de la situation."
+          ],
+          "question": "Un taux de complétude de 60 % signifie…",
+          "options": [
+            "Que 60 % des patients ont été soignés",
+            "Que la qualité est bonne à 60 %",
+            "Que 60 % des rapports attendus ont été reçus",
+            "Que 60 % des rapports sont arrivés en retard"
+          ],
+          "explain": "La complétude porte sur les rapports reçus, pas sur la situation sanitaire elle-même."
+        },
+        {
+          "title": "Exactitude",
+          "body": [
+            "L'exactitude compare ce qui est rapporté à ce qui figure dans les registres. On recompte un indicateur traceur, par exemple les accouchements, sur un mois donné.",
+            "Le rapport entre le recompte et la valeur rapportée donne un facteur de vérification. Proche de 1, la donnée est fiable ; nettement au-dessus ou en dessous, il y a sous-déclaration ou surdéclaration."
+          ],
+          "question": "Le registre compte 80 accouchements, le rapport en déclare 100. Il y a…",
+          "options": [
+            "Sous-déclaration",
+            "Surdéclaration",
+            "Exactitude parfaite",
+            "Un problème de complétude"
+          ],
+          "explain": "Le rapport déclare plus que le registre : facteur de vérification de 0,8, donc surdéclaration."
+        },
+        {
+          "title": "Cohérence",
+          "body": [
+            "Une donnée cohérente ne varie pas sans raison d'un mois à l'autre et respecte la logique entre indicateurs liés.",
+            "Exemple : le nombre de femmes vues en quatrième consultation prénatale ne peut pas dépasser celui des femmes vues en première consultation. Si c'est le cas, une erreur s'est glissée quelque part."
+          ],
+          "question": "Quelle situation signale une incohérence ?",
+          "options": [
+            "CPN1 supérieure à CPN4",
+            "Une hausse saisonnière du paludisme",
+            "Une complétude de 95 %",
+            "CPN4 supérieure à CPN1"
+          ],
+          "explain": "Toutes les femmes vues en CPN4 sont d'abord passées par la CPN1."
+        },
+        {
+          "title": "Validité et unicité",
+          "body": [
+            "La validité vérifie qu'une valeur est possible : un âge de 150 ans, une date future ou un nombre négatif de cas sont invalides.",
+            "L'unicité vérifie qu'un même événement ou une même personne n'est pas compté deux fois, par exemple lors d'une double saisie."
+          ],
+          "question": "Une même patiente enregistrée deux fois pose un problème de…",
+          "options": [
+            "Validité",
+            "Promptitude",
+            "Unicité",
+            "Complétude"
+          ],
+          "explain": "Le doublon gonfle artificiellement les chiffres : c'est un problème d'unicité."
+        },
+        {
+          "title": "Agir sur la qualité",
+          "body": [
+            "Les règles de validation de DHIS2 signalent automatiquement les valeurs aberrantes et les incohérences au moment de la saisie.",
+            "Mais l'outil ne suffit pas : des revues régulières de la qualité au district, avec retour aux formations sanitaires, sont ce qui change durablement les pratiques."
+          ],
+          "question": "Qu'est-ce qui améliore durablement la qualité ?",
+          "options": [
+            "Des revues régulières avec retour aux formations sanitaires",
+            "Les règles automatiques seules",
+            "Augmenter le nombre d'indicateurs",
+            "Centraliser toute la saisie"
+          ],
+          "explain": "Les règles détectent ; les revues et la rétroaction corrigent les pratiques."
+        }
+      ],
+      "quiz": [
+        {
+          "text": "La promptitude mesure…",
+          "options": [
+            "La part des rapports reçus dans les délais",
+            "La part des patients soignés",
+            "Le nombre d'erreurs de saisie",
+            "La vitesse du réseau"
+          ]
+        },
+        {
+          "text": "Un facteur de vérification nettement supérieur à 1 indique…",
+          "options": [
+            "Une surdéclaration",
+            "Une sous-déclaration",
+            "Une donnée parfaite",
+            "Une complétude faible"
+          ]
+        },
+        {
+          "text": "Un âge de 150 ans dans une fiche relève d'un problème de…",
+          "options": [
+            "Unicité",
+            "Cohérence",
+            "Validité",
+            "Promptitude"
+          ]
+        },
+        {
+          "text": "Dans DHIS2, les règles de validation servent à…",
+          "options": [
+            "Remplacer les revues de qualité",
+            "Publier les données",
+            "Former les agents",
+            "Signaler les valeurs aberrantes à la saisie"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "AN2",
+      "track": "an",
+      "title": "Tableaux de bord décisionnels",
+      "duration": "3 heures",
+      "intro": "Concevoir des tableaux de bord qui mènent à une décision.",
+      "seqs": [],
+      "quiz": []
+    },
+    {
+      "id": "AN3",
+      "track": "an",
+      "title": "De l'indicateur à l'alerte",
+      "duration": "3 heures",
+      "intro": "Fixer des seuils, déclencher des alertes et suivre la réponse.",
+      "seqs": [],
+      "quiz": []
+    }
+  ]
+}
