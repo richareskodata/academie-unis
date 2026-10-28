@@ -166,17 +166,22 @@ td.acts .btn{margin:0 4px 4px 0}
 .pill.off{background:var(--warn-soft);color:var(--warn)}
 [hidden]{display:none!important}
 
-/* Impression de l'attestation : une page A4 paysage remplie, sans en-têtes du navigateur */
+/* Impression de l'attestation : cadre centré, 80 % d'une page A4 paysage, sans en-têtes du navigateur */
 @page { size: A4 landscape; margin: 0; }
 @media print {
   html, body { background: #fff !important; margin: 0; }
-  main { padding: 12mm !important; max-width: none !important; }
-  .card { padding: 0 !important; border: none !important; }
+  .app { display: block !important; min-height: 0 !important; }
+  main {
+    width: 297mm; height: 209mm; overflow: hidden;
+    padding: 0 !important; max-width: none !important;
+    display: flex !important; align-items: center; justify-content: center;
+  }
+  .card { padding: 0 !important; border: none !important; background: none !important; }
   .cert {
-    height: 184mm;
-    grid-template-columns: minmax(0, 1fr) 62mm !important;
-    gap: 14mm !important;
-    padding: 20mm 22mm 16mm !important;
+    width: 238mm; height: 168mm;
+    grid-template-columns: minmax(0, 1fr) 50mm !important;
+    gap: 12mm !important;
+    padding: 16mm 18mm 13mm !important;
     break-inside: avoid;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
@@ -187,11 +192,11 @@ td.acts .btn{margin:0 4px 4px 0}
     print-color-adjust: exact;
   }
   .cert > div { display: flex; flex-direction: column; height: 100%; }
-  .cert .c-small { font-size: 13pt; }
-  .cert .c-name  { font-size: 40pt; margin: 3mm 0 6mm; }
-  .cert .c-mod   { font-size: 16pt; line-height: 1.45; max-width: 150mm; margin: 0; }
-  .cert .c-foot  { margin-top: auto; font-size: 11pt; gap: 14mm; }
-  .cert .c-foot strong { font-size: 13pt; margin-top: 1mm; }
-  .cert .c-link  { font-size: 9pt !important; margin-top: 5mm !important; word-break: break-all; }
-  .cert svg { width: 62mm !important; height: auto !important; }
+  .cert .c-small { font-size: 12pt; }
+  .cert .c-name  { font-size: 34pt; margin: 3mm 0 5mm; }
+  .cert .c-mod   { font-size: 14.5pt; line-height: 1.45; max-width: 135mm; margin: 0; }
+  .cert .c-foot  { margin-top: auto; font-size: 10.5pt; gap: 12mm; }
+  .cert .c-foot strong { font-size: 12pt; margin-top: 1mm; }
+  .cert .c-link  { font-size: 8.5pt !important; margin-top: 4mm !important; word-break: break-all; }
+  .cert svg { width: 50mm !important; height: auto !important; }
 }
