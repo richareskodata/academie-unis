@@ -8,15 +8,45 @@
   --body:"Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
   color-scheme: light;
 }
+/* Thèmes : clair par défaut ; sombre si choisi, ou si le mode « Système » suit un appareil en sombre */
+:root[data-theme="dark"]{
+  --bg:#0D1712; --surface:#14211A; --ink:#E6EEE8; --muted:#9BAAA1; --line:#283A30;
+  --accent:#3BB389; --accent-ink:#06140E; --accent-soft:#163327;
+  --warn:#FF7A8E; --warn-soft:#3A1820;
+  --empty:#1F2F26; --empty-line:#2E4237;
+  --yellow-soft:#3A3110; --yellow-ink:#FFD84D;
+  color-scheme: dark;
+}
 @media (prefers-color-scheme: dark){
-  :root{
-    --bg:#0D1712; --surface:#14211A; --ink:#E6EEE8; --muted:#9BAAA1; --line:#283A30;
-    --accent:#3BB389; --accent-ink:#06140E; --accent-soft:#163327;
-    --warn:#FF7A8E; --warn-soft:#3A1820;
-    --empty:#1F2F26; --empty-line:#2E4237;
-    color-scheme: dark;
+  :root:not([data-theme="light"]){
+  --bg:#0D1712; --surface:#14211A; --ink:#E6EEE8; --muted:#9BAAA1; --line:#283A30;
+  --accent:#3BB389; --accent-ink:#06140E; --accent-soft:#163327;
+  --warn:#FF7A8E; --warn-soft:#3A1820;
+  --empty:#1F2F26; --empty-line:#2E4237;
+  --yellow-soft:#3A3110; --yellow-ink:#FFD84D;
+  color-scheme: dark;
   }
 }
+/* L'attestation s'imprime toujours en clair */
+@media print{
+  :root:not(#impression){
+  --bg:#F2F5F0; --surface:#FFFFFF; --ink:#15231B; --muted:#56675D; --line:#D6DED5;
+  --accent:#006A4E; --accent-ink:#FFFFFF; --accent-soft:#E2EFE8;
+  --warn:#B00C28; --warn-soft:#FBE8EB;
+  --empty:#E1E7DF; --empty-line:#C9D3C8;
+  --yellow-soft:#FFF3BF; --yellow-ink:#6B5300;
+  color-scheme: light;
+  }
+}
+body{transition:background-color .25s ease, color .25s ease}
+.theme-switch{display:flex;gap:3px;background:var(--bg);border:1px solid var(--line);border-radius:11px;padding:3px}
+.theme-switch button{flex:1;border:none;background:none;border-radius:8px;padding:7px 6px;font-size:.82rem;cursor:pointer;color:var(--muted);display:flex;gap:6px;align-items:center;justify-content:center;white-space:nowrap}
+.theme-switch button:hover{color:var(--ink)}
+.theme-switch button[aria-pressed="true"]{background:var(--surface);color:var(--ink);font-weight:700;box-shadow:0 0 0 1px var(--line)}
+.theme-switch svg{width:15px;height:15px;flex:none}
+.theme-block{display:flex;flex-direction:column;gap:6px}
+.theme-block > span{font-size:.85rem;color:var(--muted)}
+.solo-theme{margin-top:22px}
 *{box-sizing:border-box}
 html,body{margin:0}
 body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.6}
@@ -124,7 +154,6 @@ main{padding:44px clamp(20px,5vw,72px) 80px;max-width:1040px}
 }
 
 :root{--yellow-soft:#FFF3BF;--yellow-ink:#6B5300}
-@media (prefers-color-scheme: dark){:root{--yellow-soft:#3A3110;--yellow-ink:#FFD84D}}
 a.btn{display:inline-block;text-decoration:none}
 .btn:disabled{opacity:.6;cursor:wait}
 .btn.full{width:100%}

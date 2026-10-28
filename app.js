@@ -61,8 +61,20 @@ function flagSVG(p, o = {}) {
   return s + `</svg>`;
 }
 
+/* ---------- Thème clair / sombre ---------- */
+const ICONS = {
+  light: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>',
+  dark: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>',
+  auto: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg>'
+};
+function themeSwitch() {
+  const curT = window.UNIS_THEME ? window.UNIS_THEME.get() : "auto";
+  const b = (id, label) => `<button type="button" data-theme-set="${id}" aria-pressed="${curT === id}">${ICONS[id]}${label}</button>`;
+  return `<div class="theme-block"><span id="theme-lbl">Affichage</span><div class="theme-switch" role="group" aria-labelledby="theme-lbl">${b("light", "Clair")}${b("dark", "Sombre")}${b("auto", "Système")}</div></div>`;
+}
+
 /* ---------- Écrans hors connexion ---------- */
-const solo = inner => `<div class="solo"><div class="solo-card">${flagSVG(FULL, { big: true, label: "Drapeau du Togo" })}${inner}</div></div>`;
+const solo = inner => `<div class="solo"><div class="solo-card">${flagSVG(FULL, { big: true, label: "Drapeau du Togo" })}${inner}<div class="solo-theme">${themeSwitch()}</div></div></div>`;
 const field = (name, label, type = "text", ac = "off", extra = "", hint = "") =>
   `<div class="field"><label for="i-${name}">${label}</label><input id="i-${name}" name="${name}" type="${type}" autocomplete="${ac}" required ${extra}>${hint ? `<small>${hint}</small>` : ""}</div>`;
 const errSlot = `<p class="feedback ko" role="alert" data-err hidden></p>`;
@@ -136,7 +148,7 @@ function side() {
     });
     h += `</ol></nav>`;
   });
-  h += `<div class="side-foot"><div class="userbox"><span>Connecté en tant que</span><strong>${esc(profile.full_name || profile.email)}</strong></div>
+  h += `<div class="side-foot">${themeSwitch()}<div class="userbox"><span>Connecté en tant que</span><strong>${esc(profile.full_name || profile.email)}</strong></div>
     ${isAdmin() ? (view === "admin" ? `<button class="btn ghost" data-act="toApp">Retour aux modules</button>` : `<button class="btn ghost" data-act="toAdmin">Administration</button>`) : ""}
     <button class="link-btn" data-act="logout">Se déconnecter</button></div>`;
   return h;
@@ -464,9 +476,14 @@ async function onSubmit(form) {
 /* ---------- Événements ---------- */
 document.addEventListener("submit", e => { e.preventDefault(); onSubmit(e.target); });
 document.addEventListener("click", async e => {
-  const t = e.target.closest("[data-tab],[data-act],[data-mod],[data-step],[data-go],[data-filter],[data-op]");
+  const t = e.target.closest("[data-theme-set],[data-tab],[data-act],[data-mod],[data-step],[data-go],[data-filter],[data-op]");
   if (!t) return;
   const d = t.dataset;
+  if (d.themeSet) {
+    window.UNIS_THEME && window.UNIS_THEME.set(d.themeSet);
+    document.querySelectorAll("[data-theme-set]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.themeSet === d.themeSet)));
+    return;
+  }
   if (d.tab) { authTab = d.tab; return render(); }
   if (d.mod !== undefined) return goModule(+d.mod);
   if (d.step !== undefined) return goStep(+d.step);
