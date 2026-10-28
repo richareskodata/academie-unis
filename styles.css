@@ -166,26 +166,32 @@ td.acts .btn{margin:0 4px 4px 0}
 .pill.off{background:var(--warn-soft);color:var(--warn)}
 [hidden]{display:none!important}
 
-/* Impression de l'attestation : textes dimensionnés pour la page, colonne réservée au drapeau */
-@page { size: A4 landscape; margin: 12mm; }
+/* Impression de l'attestation : une page A4 paysage remplie, sans en-têtes du navigateur */
+@page { size: A4 landscape; margin: 0; }
 @media print {
-  html, body { background: #fff !important; }
+  html, body { background: #fff !important; margin: 0; }
+  main { padding: 12mm !important; max-width: none !important; }
+  .card { padding: 0 !important; border: none !important; }
   .cert {
-    grid-template-columns: minmax(0, 1fr) 170px !important;
-    gap: 32px !important;
-    padding: 36px 40px !important;
+    height: 184mm;
+    grid-template-columns: minmax(0, 1fr) 62mm !important;
+    gap: 14mm !important;
+    padding: 20mm 22mm 16mm !important;
     break-inside: avoid;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
+  .cert::before { height: 4mm !important; }
   .cert::before, .cert svg {
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
-  .cert .c-small { font-size: 11pt; }
-  .cert .c-name  { font-size: 26pt; margin: 4px 0 10px; }
-  .cert .c-mod   { font-size: 13pt; max-width: none; margin-bottom: 16px; }
-  .cert .c-foot  { font-size: 10pt; }
-  .cert .c-link  { font-size: 8.5pt !important; word-break: break-all; }
-  .cert svg { width: 170px !important; height: auto !important; }
+  .cert > div { display: flex; flex-direction: column; height: 100%; }
+  .cert .c-small { font-size: 13pt; }
+  .cert .c-name  { font-size: 40pt; margin: 3mm 0 6mm; }
+  .cert .c-mod   { font-size: 16pt; line-height: 1.45; max-width: 150mm; margin: 0; }
+  .cert .c-foot  { margin-top: auto; font-size: 11pt; gap: 14mm; }
+  .cert .c-foot strong { font-size: 13pt; margin-top: 1mm; }
+  .cert .c-link  { font-size: 9pt !important; margin-top: 5mm !important; word-break: break-all; }
+  .cert svg { width: 62mm !important; height: auto !important; }
 }
