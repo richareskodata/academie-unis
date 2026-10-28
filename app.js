@@ -233,7 +233,7 @@ function attestView(m, p, i) {
       <p class="c-name">${esc(p.name || profile.full_name)}</p>
       <p class="c-mod">pour avoir suivi et validé le module ${esc(m.id)} : ${esc(m.title)} (${esc(m.duration)}).</p>
       <div class="c-foot"><span>Délivrée le<strong>${fmtDate(p.attest)}</strong></span><span>Code de vérification<strong>${esc(p.code)}</strong></span></div>
-      <p class="c-small" style="margin-top:16px;font-size:.8rem;word-break:break-all">Vérifiable sur ${esc(link)}</p></div>
+      <p class="c-small c-link" style="margin-top:16px;font-size:.8rem;word-break:break-all">Vérifiable sur ${esc(link)}</p></div>
       ${flagSVG(p, { w: 150, label: "Drapeau complété" })}
     </div>
     <div class="actions no-print" style="margin-top:22px"><button class="btn" data-act="print">Imprimer l'attestation</button>
