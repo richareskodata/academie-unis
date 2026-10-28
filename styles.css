@@ -165,3 +165,20 @@ td.acts .btn{margin:0 4px 4px 0}
 .pill.wait{background:var(--yellow-soft);color:var(--yellow-ink)}
 .pill.off{background:var(--warn-soft);color:var(--warn)}
 [hidden]{display:none!important}
+
+/* Impression de l'attestation : drapeau à droite, couleurs conservées, une seule page */
+@page { size: A4 landscape; margin: 12mm; }
+@media print {
+  html, body { background: #fff !important; }
+  .cert {
+    grid-template-columns: 1fr auto !important;
+    break-inside: avoid;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .cert::before, .cert svg {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .cert svg { width: 150px !important; }
+}
