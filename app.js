@@ -8,7 +8,7 @@ const fmtDate = d => d ? new Date(d + "T00:00:00").toLocaleDateString("fr-FR", {
 const appUrl = () => location.origin + location.pathname;
 
 /* ---------- État ---------- */
-let sb, MODULES = [];
+let sb, MODULES = [], TRACKS = [];
 let session = null, profile = null, P = {};
 let view = "loading", authTab = "login", cur = { m: 0, step: 0 };
 let ui = {}, notice = null, sentTo = "", verify = null;
@@ -24,12 +24,24 @@ function prog(id) {
 function fromRow(r) {
   P[r.module_id] = { seq: r.seq, quiz: r.quiz_passed, best: r.quiz_best, attest: r.attest_date, code: r.attest_code, name: r.attest_name };
 }
-function unlocked(i) {
-  if (isAdmin() || i === 0) return true;
-  for (let j = i - 1; j >= 0; j--) if (hasContent(MODULES[j])) return !!prog(MODULES[j].id).code;
-  return true;
+const trackOf = id => TRACKS.find(t => t.id === id);
+const trackLabel = id => (trackOf(id) || {}).label || id;
+const myTrack = () => (profile && profile.parcours && trackOf(profile.parcours) && profile.parcours !== "tc") ? profile.parcours : "";
+const trackMods = t => MODULES.filter(m => m.track === t && hasContent(m));
+// Module à valider avant d'ouvrir le module i : le précédent du même parcours ;
+// pour le premier module d'un parcours métier, le module TC1 (vision et missions).
+function prereq(i) {
+  const m = MODULES[i], list = trackMods(m.track), k = list.indexOf(m);
+  if (k > 0) return list[k - 1];
+  if (m.track !== "tc") { const t1 = MODULES.find(x => x.id === "TC1" && hasContent(x)); if (t1) return t1; }
+  return null;
 }
-function prevWithContent(i) { for (let j = i - 1; j >= 0; j--) if (hasContent(MODULES[j])) return MODULES[j]; return null; }
+function unlocked(i) {
+  if (isAdmin()) return true;
+  const pm = prereq(i);
+  return !pm || !!prog(pm.id).code;
+}
+function prevWithContent(i) { return prereq(i); }
 function reachable(m, s) {
   const p = prog(m.id);
   if (s === 0) return true;
@@ -96,6 +108,7 @@ V.auth = () => {
       ${field("full_name", "Nom et prénom", "text", "name", 'maxlength="120"', "Tel qu'il figurera sur vos attestations.")}
       ${field("structure", "Structure ou district", "text", "organization", 'maxlength="120"')}
       ${field("fonction", "Fonction", "text", "organization-title", 'maxlength="120"')}
+      <div class="field"><label for="i-parcours">Poste à l'UNIS (parcours de formation)</label>${parcoursSelect("i-parcours", "", "Autre / partenaire : tronc commun uniquement")}<small>Détermine votre parcours métier. Modifiable ensuite.</small></div>
       ${field("email", "Adresse email", "email", "email")}
       ${field("password", "Mot de passe", "password", "new-password", 'minlength="10"', "Au moins 10 caractères.")}
       ${field("password2", "Confirmer le mot de passe", "password", "new-password")}
@@ -134,20 +147,36 @@ function statusText(m, i) {
   const n = p.seq.filter(Boolean).length + (p.quiz ? 1 : 0);
   return n ? `En cours, ${n} sur 6 étapes` : "À commencer";
 }
+function navTrack(t, label, extra = "") {
+  const mods = MODULES.map((m, i) => [m, i]).filter(([m]) => m.track === t);
+  if (!mods.length) return "";
+  let h = `<nav class="track" aria-label="${esc(label)}"><h2>${esc(label)}</h2>${extra}<ol>`;
+  mods.forEach(([m, i]) => {
+    const locked = !unlocked(i) || !hasContent(m);
+    h += `<li><button class="mod-btn${locked ? " locked" : ""}" data-mod="${i}" aria-current="${view === "app" && cur.m === i}">
+      ${flagSVG(prog(m.id), { w: 46, label: "Progression " + m.id })}
+      <span><span class="code">${esc(m.id)}</span> <span class="title">${esc(m.title)}</span><span class="status">${statusText(m, i)}</span></span></button></li>`;
+  });
+  return h + `</ol></nav>`;
+}
+function parcoursSelect(id, current, emptyLabel) {
+  let o = `<option value="">${esc(emptyLabel)}</option>`;
+  TRACKS.filter(t => t.id !== "tc").forEach(t => o += `<option value="${esc(t.id)}" ${current === t.id ? "selected" : ""}>${esc(t.label)}</option>`);
+  return `<select id="${id}" name="parcours">${o}</select>`;
+}
 function side() {
   let h = `<div class="brand">${flagSVG(FULL, { w: 52, label: "Drapeau du Togo" })}<div><h1>Académie UNIS</h1><p>Renforcement de capacités, Ministère de la Santé du Togo</p></div></div>`;
-  [["tc", "Tronc commun"], ["an", "Parcours Analyste"]].forEach(([t, label]) => {
-    const mods = MODULES.map((m, i) => [m, i]).filter(([m]) => m.track === t);
-    if (!mods.length) return;
-    h += `<nav class="track" aria-label="${label}"><h2>${label}</h2><ol>`;
-    mods.forEach(([m, i]) => {
-      const locked = !unlocked(i) || !hasContent(m);
-      h += `<li><button class="mod-btn${locked ? " locked" : ""}" data-mod="${i}" aria-current="${view === "app" && cur.m === i}">
-        ${flagSVG(prog(m.id), { w: 46, label: "Progression " + m.id })}
-        <span><span class="code">${esc(m.id)}</span> <span class="title">${esc(m.title)}</span><span class="status">${statusText(m, i)}</span></span></button></li>`;
-    });
-    h += `</ol></nav>`;
-  });
+  const mine = myTrack();
+  h += `<div class="parcours-box"><label for="my-parcours">Mon poste à l'UNIS</label>${parcoursSelect("my-parcours", mine, "Choisir mon poste…")}
+    ${mine ? "" : `<small>Choisissez votre poste pour afficher votre parcours métier.</small>`}</div>`;
+  h += navTrack("tc", trackLabel("tc"));
+  if (mine) h += navTrack(mine, "Mon parcours : " + trackLabel(mine), (trackOf(mine) || {}).pole ? `<p class="track-pole">${esc(trackOf(mine).pole)}</p>` : "");
+  const others = TRACKS.filter(t => t.id !== "tc" && t.id !== mine && MODULES.some(m => m.track === t.id));
+  if (others.length) {
+    const curTrack = MODULES[cur.m] && MODULES[cur.m].track;
+    const open = others.some(t => t.id === curTrack);
+    h += `<details class="others"${open ? " open" : ""}><summary>Autres parcours (consultation)</summary>${others.map(t => navTrack(t.id, t.label)).join("")}</details>`;
+  }
   h += `<div class="side-foot">${themeSwitch()}<div class="userbox"><span>Connecté en tant que</span><strong>${esc(profile.full_name || profile.email)}</strong></div>
     ${isAdmin() ? (view === "admin" ? `<button class="btn ghost" data-act="toApp">Retour aux modules</button>` : `<button class="btn ghost" data-act="toAdmin">Administration</button>`) : ""}
     <button class="link-btn" data-act="logout">Se déconnecter</button></div>`;
@@ -159,8 +188,9 @@ function mainView() {
   const i = cur.m, m = MODULES[i], p = prog(m.id);
   let h = `<header class="mod-head">${flagSVG(p, { big: true, mod: hasContent(m) && unlocked(i) ? m : null, label: "Drapeau de progression du module " + m.id })}
     <div><p class="mod-code">Module ${esc(m.id)}</p><h2 class="mod-title">${esc(m.title)}</h2>
-    <p class="mod-meta">${esc(m.duration)}. ${esc(m.intro)}</p>
+    <p class="mod-meta">${m.level ? `<span class="pill ok">${esc(m.level)}</span> ` : ""}${esc(trackLabel(m.track))}. ${esc(m.duration)}. ${esc(m.intro)}</p>
     ${hasContent(m) ? `<p class="legend">Chaque séquence validée colore une bande du drapeau. Le quiz réussi colore le carré rouge ; l'attestation y ajoute l'étoile.</p>` : ""}</div></header>`;
+  h += moduleInfo(m);
   if (!hasContent(m)) return h + `<section class="card"><h3>Module en préparation</h3><p class="body">L'équipe pédagogique rédige ce module. Il suivra la même structure : cinq séquences courtes avec une question de validation chacune, un quiz final et une attestation.</p></section>`;
   if (!unlocked(i)) {
     const pm = prevWithContent(i);
@@ -178,10 +208,22 @@ function mainView() {
   return h + (s < 5 ? seqView(m, p, s) : s === 5 ? quizView(m, p) : attestView(m, p, i));
 }
 
+function moduleInfo(m) {
+  if (!m.vision && !(m.objectives || []).length && !(m.resources || []).length) return "";
+  let h = `<details class="mod-info"><summary>Objectifs, lien avec la vision UNIS et ressources</summary>`;
+  if (m.vision) h += `<p class="body"><strong>Pourquoi ce module :</strong> ${esc(m.vision)}</p>`;
+  if ((m.objectives || []).length) h += `<p class="qlabel">À l'issue du module, vous saurez :</p><ul>${m.objectives.map(o => `<li>${esc(o)}</li>`).join("")}</ul>`;
+  if ((m.resources || []).length) h += `<p class="qlabel">Pour aller plus loin :</p><ul class="res">${m.resources.map(o => `<li>${esc(o)}</li>`).join("")}</ul>`;
+  return h + `</details>`;
+}
+
 function seqView(m, p, s) {
   const q = m.seqs[s], done = p.seq[s];
   let h = `<section class="card"><p class="kicker">Séquence ${s + 1} sur 5</p><h3>${esc(q.title)}</h3>`;
   (q.body || []).forEach(t => h += `<p class="body">${esc(t)}</p>`);
+  if ((q.keypoints || []).length) h += `<div class="box key"><p class="box-t">À retenir</p><ul>${q.keypoints.map(k => `<li>${esc(k)}</li>`).join("")}</ul></div>`;
+  if (q.case && q.case.text) h += `<div class="box case"><p class="box-t">Étude de cas${q.case.title ? " : " + esc(q.case.title) : ""}</p><p>${esc(q.case.text)}</p></div>`;
+  if (q.practice) h += `<div class="box practice"><p class="box-t">Mise en pratique sur votre poste</p><p>${esc(q.practice)}</p></div>`;
   h += `<div class="question"><p class="qlabel">Question de validation</p><h4 id="qt">${esc(q.question)}</h4><div class="opts" role="radiogroup" aria-labelledby="qt">`;
   q.options.forEach((o, k) => {
     const chosen = ui.seqChoice === k;
@@ -237,7 +279,10 @@ function attestView(m, p, i) {
       ${ui.err ? `<p class="feedback ko" role="alert">${esc(ui.err)}</p>` : ""}
       <div class="actions"><button class="btn" data-act="mkcert" ${ui.busy ? "disabled" : ""}>${ui.busy ? "Génération…" : "Générer mon attestation"}</button></div></section>`;
   }
-  const next = MODULES.findIndex((mm, j) => j > i && hasContent(mm));
+  const list = trackMods(m.track), k = list.indexOf(m);
+  let nm = list[k + 1];
+  if (!nm && m.track === "tc" && myTrack()) nm = trackMods(myTrack()).find(x => !prog(x.id).code);
+  const next = nm ? MODULES.indexOf(nm) : -1;
   const link = `${appUrl()}?verifier=${encodeURIComponent(p.code)}`;
   return `<section class="card"><div class="cert">
       <div><p class="c-small">Académie UNIS, Ministère de la Santé du Togo</p>
@@ -256,7 +301,7 @@ function attestView(m, p, i) {
 function adminFiltered() {
   const q = admin.q.trim().toLowerCase();
   return admin.rows.filter(r => (admin.filter === "all" || !r.approved) &&
-    (!q || [r.full_name, r.email, r.structure, r.fonction].join(" ").toLowerCase().includes(q)));
+    (!q || [r.full_name, r.email, r.structure, r.fonction, r.parcours ? trackLabel(r.parcours) : ""].join(" ").toLowerCase().includes(q)));
 }
 function adminTable() {
   const list = adminFiltered();
@@ -266,7 +311,7 @@ function adminTable() {
     const att = admin.prog.filter(x => x.user_id === r.id && x.attest_code).map(x => x.module_id);
     const self = r.id === profile.id, who = esc(r.full_name || r.email);
     h += `<tr><td><strong>${esc(r.full_name || "Sans nom")}</strong><br><span class="muted">${esc(r.email)}</span></td>
-      <td>${esc(r.structure)}<br><span class="muted">${esc(r.fonction)}</span></td>
+      <td>${esc(r.structure)}<br><span class="muted">${esc(r.fonction)}</span><br><span class="muted">Parcours : ${esc(r.parcours ? trackLabel(r.parcours) : "tronc commun")}</span></td>
       <td>${new Date(r.created_at).toLocaleDateString("fr-FR")}</td>
       <td>${att.length ? esc(att.join(", ")) : '<span class="muted">Aucune</span>'}</td>
       <td>${r.approved ? `<span class="pill ok">Validé</span>` : `<span class="pill wait">En attente</span>`}${r.role === "admin" ? ` <span class="pill ok">Admin</span>` : ""}</td>
@@ -318,10 +363,10 @@ async function adminOp(id, op) {
 function exportCsv() {
   const ids = MODULES.filter(hasContent).map(m => m.id);
   const safe = v => { let s = String(v ?? ""); if (/^[=+\-@\t\r]/.test(s)) s = "'" + s; return `"${s.replace(/"/g, '""')}"`; };
-  const lines = [["Nom", "Email", "Structure", "Fonction", "Statut", "Rôle", "Inscription", ...ids.map(i => "Attestation " + i)]];
+  const lines = [["Nom", "Email", "Structure", "Fonction", "Parcours", "Statut", "Rôle", "Inscription", ...ids.map(i => "Attestation " + i)]];
   admin.rows.forEach(r => {
     const at = id => { const x = admin.prog.find(y => y.user_id === r.id && y.module_id === id); return x && x.attest_date ? x.attest_date : ""; };
-    lines.push([r.full_name, r.email, r.structure, r.fonction, r.approved ? "Validé" : "En attente", r.role, String(r.created_at).slice(0, 10), ...ids.map(at)]);
+    lines.push([r.full_name, r.email, r.structure, r.fonction, r.parcours ? trackLabel(r.parcours) : "Tronc commun", r.approved ? "Validé" : "En attente", r.role, String(r.created_at).slice(0, 10), ...ids.map(at)]);
   });
   const csv = "\ufeff" + lines.map(l => l.map(safe).join(";")).join("\r\n");
   const a = document.createElement("a");
@@ -356,7 +401,8 @@ async function enter() {
   if (!pr.approved) { view = "pending"; return render(); }
   const { data: rows } = await sb.from("progress").select("*").eq("user_id", uid);
   P = {}; (rows || []).forEach(fromRow);
-  const i = MODULES.findIndex((m, k) => hasContent(m) && unlocked(k) && !prog(m.id).code);
+  const mine = myTrack();
+  const i = MODULES.findIndex((m, k) => (m.track === "tc" || m.track === mine) && hasContent(m) && unlocked(k) && !prog(m.id).code);
   goModule(i > -1 ? i : 0);
 }
 async function doVerify(code) {
@@ -447,7 +493,7 @@ async function onSubmit(form) {
       busy();
       const { data, error } = await sb.auth.signUp({
         email: fd.email, password: fd.password,
-        options: { emailRedirectTo: appUrl(), data: { full_name: fd.full_name, structure: fd.structure, fonction: fd.fonction } }
+        options: { emailRedirectTo: appUrl(), data: { full_name: fd.full_name, structure: fd.structure, fonction: fd.fonction, parcours: fd.parcours || "" } }
       });
       if (error) throw error;
       if (data.session) { session = data.session; return await enter(); }
@@ -505,8 +551,16 @@ document.addEventListener("click", async e => {
     case "print": return window.print();
   }
 });
-document.addEventListener("change", e => {
+document.addEventListener("change", async e => {
   const t = e.target;
+  if (t.id === "my-parcours") {
+    const v = t.value;
+    const { error } = await sb.rpc("set_my_parcours", { p_parcours: v });
+    if (error) { alert("Impossible d'enregistrer le parcours : " + error.message); t.value = myTrack(); return; }
+    profile.parcours = v;
+    const first = MODULES.findIndex(m => m.track === v && hasContent(m));
+    return first > -1 ? goModule(first) : render();
+  }
   if (t.name === "sq") { ui.seqChoice = +t.value; ui.seqFeedback = null; }
   if (t.dataset && t.dataset.q !== undefined) ui.quizAnswers[+t.dataset.q] = +t.value;
 });
@@ -521,7 +575,8 @@ async function init() {
   try {
     const r = await fetch("content.json", { cache: "no-cache" });
     if (!r.ok) throw new Error("absent");
-    MODULES = (await r.json()).modules;
+    const data = await r.json();
+    MODULES = data.modules; TRACKS = Array.isArray(data.tracks) ? data.tracks : [{ id: "tc", label: "Tronc commun" }];
     if (!Array.isArray(MODULES) || !MODULES.length) throw new Error("vide");
   } catch (e) { view = "contentError"; return render(); }
 

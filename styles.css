@@ -229,3 +229,25 @@ td.acts .btn{margin:0 4px 4px 0}
   .cert .c-link  { font-size: 8.5pt !important; margin-top: 4mm !important; word-break: break-all; }
   .cert svg { width: 50mm !important; height: auto !important; }
 }
+
+/* Parcours par poste et contenus enrichis des séquences */
+select{font:inherit;color:inherit;border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:10px 12px;width:100%}
+.parcours-box{display:flex;flex-direction:column;gap:6px;font-size:.9rem}
+.parcours-box label{font-weight:700}
+.parcours-box small{color:var(--muted);font-size:.8rem}
+.track-pole{margin:-4px 0 8px;font-size:.8rem;color:var(--muted)}
+details.others summary{cursor:pointer;font-family:var(--display);font-weight:700;color:var(--muted);margin-bottom:10px}
+details.others .track{margin-bottom:16px}
+details.mod-info{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 20px;margin:0 0 22px}
+details.mod-info summary{cursor:pointer;font-weight:700}
+details.mod-info ul{margin:4px 0 14px;padding-left:22px;max-width:70ch}
+details.mod-info .res li{font-size:.92rem;color:var(--muted)}
+details.mod-info p.body{margin-top:12px}
+.box{border-radius:12px;padding:16px 20px;margin:20px 0;max-width:72ch}
+.box p{margin:0}
+.box ul{margin:0;padding-left:20px}
+.box .box-t{font-family:var(--display);font-weight:700;margin-bottom:8px}
+.box.key{background:var(--accent-soft);border-left:4px solid var(--accent)}
+.box.case{background:var(--yellow-soft);border-left:4px solid var(--flag-yellow)}
+.box.case .box-t{color:var(--yellow-ink)}
+.box.practice{background:var(--bg);border:1px dashed var(--line);border-left:4px solid var(--ink)}

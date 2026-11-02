@@ -2,6 +2,40 @@
 
 Plateforme de formation en ligne de l'UNIS : comptes sécurisés, progression enregistrée, quiz corrigés côté serveur et attestations vérifiables. Hébergement gratuit : site sur GitHub Pages, comptes et données sur Supabase.
 
+## Les parcours de formation (version 2)
+
+La plateforme propose **66 modules** : un tronc commun pour tous et un parcours de six modules pour chacun des dix postes de l'UNIS (fiches de poste de novembre 2026).
+
+| Parcours | Modules | Public |
+|---|---|---|
+| Tronc commun | TC1 à TC6 | Tous les membres de l'UNIS |
+| Chargé de Pilotage & d'Évaluation des Projets | PE1 à PE6 | Rattaché au Responsable de l'Unité |
+| Chargé de Formation & Adoption | FA1 à FA6 | Pôle Opérations & Adoption |
+| Chargé des opérations du Hub | OP1 à OP6 | Pôle Opérations & Adoption |
+| Chargé IT & support utilisateurs | IT1 à IT6 | Pôle Opérations & Adoption |
+| Ingénieur plateforme | PF1 à PF6 | Pôle Données & Plateforme |
+| Ingénieur de données | DE1 à DE6 | Pôle Données & Plateforme |
+| Data Scientist | DS1 à DS6 | Pôle Données & Plateforme |
+| Analyste de données | AN1 à AN6 | Pôle Données & Plateforme |
+| Épidémiologiste | EP1 à EP6 | Pôle Données & Plateforme |
+| Biostatisticien | BS1 à BS6 | Pôle Données & Plateforme |
+
+Chaque nouveau module dure environ 6 heures et progresse du niveau fondamental au niveau expert. Le sixième module de chaque parcours est un projet intégrateur sur un cas d'usage réel de l'UNIS. Chaque module comprend :
+
+- ses objectifs et son lien avec la vision UNIS / HOS (CSU, autonomie de l'équipe nationale avec l'appui de SAND Technologies) ;
+- cinq séquences, chacune avec un cours détaillé, les points à retenir, une étude de cas située au Togo (données fictives), un exercice pratique sur le poste et une question de validation ;
+- un quiz final de 8 questions (6 bonnes réponses exigées) et une attestation vérifiable.
+
+**Choix du parcours.** À l'inscription, l'agent indique son poste à l'UNIS. Il voit alors le tronc commun et son parcours métier ; les autres parcours restent consultables. Il peut changer de poste depuis la barre latérale. Ordre de déblocage : les modules d'un même parcours se suivent ; le premier module d'un parcours métier s'ouvre dès l'attestation TC1. Les administrateurs ont accès à tout.
+
+**Points à faire relire par les experts de l'UNIS avant ouverture.** Les chiffres nationaux cités (mortalité maternelle d'environ 399 pour 100 000 en 2021, mortalité néonatale de 27 à 29 pour 1 000) sont présentés comme des ordres de grandeur à confirmer. Les cas pratiques utilisent des données fictives. L'architecture réelle de HOS n'est pas décrite : les modules techniques présentent une architecture type, à comparer à la documentation officielle du programme. Les références bibliographiques sont réelles mais doivent être vérifiées (éditions, liens).
+
+### Mettre à jour une plateforme déjà installée
+
+1. Remplacez sur GitHub les fichiers `app.js`, `styles.css`, `content.json` et `supabase/schema.sql`.
+2. Dans Supabase > **SQL Editor**, exécutez à nouveau **tout** `supabase/schema.sql`. Le script peut être relancé sans risque : il ajoute la colonne `parcours`, la fonction `set_my_parcours` et les bonnes réponses des nouveaux modules, sans toucher aux comptes ni aux progressions.
+3. Les agents déjà inscrits choisissent leur poste dans la barre latérale à leur prochaine connexion.
+
 ## Contenu du dossier
 
 | Fichier | Rôle |
@@ -78,9 +112,9 @@ Les bonnes réponses ne sont pas dans `content.json` (sinon n'importe qui pourra
 | `idx` | Le numéro de la question **en partant de 0** (séquences : 0 à 4 ; quiz : 0, 1, 2, 3…) |
 | `answer` | La position de la bonne option **en partant de 0** (première option = 0) |
 
-Si vous changez l'ordre des options d'une question dans `content.json`, mettez à jour `answer` en conséquence. Pour un nouveau module : ajoutez-le dans `content.json` (même structure que TC1, cinq séquences), puis ajoutez ses 5 lignes `seq` et ses lignes `quiz` dans answer_keys. Les modules marqués « en préparation » (TC3, TC4, AN2, AN3) n'attendent que cela.
+Si vous changez l'ordre des options d'une question dans `content.json`, mettez à jour `answer` en conséquence. Pour un nouveau module : ajoutez-le dans `content.json` (même structure que les autres, exactement cinq séquences, et `track` égal au code du parcours), puis ajoutez ses 5 lignes `seq` et ses lignes `quiz` dans answer_keys. Les champs `level`, `vision`, `objectives`, `resources` (module) et `keypoints`, `case`, `practice` (séquence) sont facultatifs : la plateforme les affiche s'ils sont présents. Un nouveau parcours s'ajoute dans la liste `tracks` en tête de `content.json` ; ajoutez aussi son code dans les deux listes de codes autorisés de `schema.sql` (`handle_new_user` et `set_my_parcours`).
 
-Le seuil de réussite du quiz est de trois quarts des questions (3 sur 4).
+Le seuil de réussite du quiz est de trois quarts des questions (3 sur 4, 6 sur 8).
 
 ## Sécurité : ce qui est en place
 
