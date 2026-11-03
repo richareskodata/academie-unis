@@ -4,7 +4,7 @@ Plateforme de formation en ligne de l'UNIS : comptes sécurisés, progression en
 
 ## Les parcours de formation (version 2)
 
-La plateforme propose **66 modules** : un tronc commun pour tous et un parcours de six modules pour chacun des dix postes de l'UNIS (fiches de poste de novembre 2026).
+La plateforme propose **66 modules** : un tronc commun pour tous et un parcours métier pour chacun des neuf types de poste de l'UNIS (douze postes, fiches de poste mises à jour). Le poste fusionné Épidémiologiste / Biostatisticien (3 postes, fiche commune) a un parcours de douze modules, car chaque titulaire doit maîtriser à la fois l'épidémiologie et la biostatistique.
 
 | Parcours | Modules | Public |
 |---|---|---|
@@ -17,10 +17,9 @@ La plateforme propose **66 modules** : un tronc commun pour tous et un parcours 
 | Ingénieur de données | DE1 à DE6 | Pôle Données & Plateforme |
 | Data Scientist | DS1 à DS6 | Pôle Données & Plateforme |
 | Analyste de données | AN1 à AN6 | Pôle Données & Plateforme |
-| Épidémiologiste | EP1 à EP6 | Pôle Données & Plateforme |
-| Biostatisticien | BS1 à BS6 | Pôle Données & Plateforme |
+| Épidémiologiste / Biostatisticien | EB1 à EB12 | Pôle Données & Plateforme, 3 postes |
 
-Chaque nouveau module dure environ 6 heures et progresse du niveau fondamental au niveau expert. Le sixième module de chaque parcours est un projet intégrateur sur un cas d'usage réel de l'UNIS. Chaque module comprend :
+Chaque nouveau module dure environ 6 heures et progresse du niveau fondamental au niveau expert. Le dernier module de chaque parcours est un projet intégrateur (EB11 et EB12 pour le parcours Épidémiologiste / Biostatisticien, EB12 traitant du rôle de référent méthodologique) sur un cas d'usage réel de l'UNIS. Chaque module comprend :
 
 - ses objectifs et son lien avec la vision UNIS / HOS (CSU, autonomie de l'équipe nationale avec l'appui de SAND Technologies) ;
 - cinq séquences, chacune avec un cours détaillé, les points à retenir, une étude de cas située au Togo (données fictives), un exercice pratique sur le poste et une question de validation ;
@@ -34,7 +33,7 @@ Chaque nouveau module dure environ 6 heures et progresse du niveau fondamental a
 
 1. Remplacez sur GitHub les fichiers `app.js`, `styles.css`, `content.json` et `supabase/schema.sql`.
 2. Dans Supabase > **SQL Editor**, exécutez à nouveau **tout** `supabase/schema.sql`. Le script peut être relancé sans risque : il ajoute la colonne `parcours`, la fonction `set_my_parcours` et les bonnes réponses des nouveaux modules, sans toucher aux comptes ni aux progressions.
-3. Les agents déjà inscrits choisissent leur poste dans la barre latérale à leur prochaine connexion.
+3. Les agents déjà inscrits choisissent leur poste dans la barre latérale à leur prochaine connexion. Ceux qui avaient choisi « Épidémiologiste » ou « Biostatisticien » sont basculés automatiquement vers « Épidémiologiste / Biostatisticien ». Les anciens modules EP et BS disparaissent ; les attestations déjà délivrées restent vérifiables.
 
 ## Contenu du dossier
 
